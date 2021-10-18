@@ -1,4 +1,4 @@
-GIT_HEAD_REF := $(shell git rev-parse HEAD)
+GIT_HEAD_REF := 8d7ed0a6bdc55ea58681f47a30f88d1df3ab75a5 #$(shell git rev-parse HEAD)
 
 BASE_IMAGE := pytorch/pytorch:1.9.0-cuda11.1-cudnn8-devel
 
@@ -101,7 +101,7 @@ pull-eval-image:
 	docker pull tscholak/$(EVAL_IMAGE_NAME):$(GIT_HEAD_REF)
 
 .PHONY: train
-train: pull-train-image
+train: 
 	mkdir -p -m 777 train
 	mkdir -p -m 777 transformers_cache
 	mkdir -p -m 777 wandb
@@ -113,7 +113,7 @@ train: pull-train-image
 		--mount type=bind,source=$(PWD)/transformers_cache,target=/transformers_cache \
 		--mount type=bind,source=$(PWD)/configs,target=/app/configs \
 		--mount type=bind,source=$(PWD)/wandb,target=/app/wandb \
-		tscholak/$(TRAIN_IMAGE_NAME):$(GIT_HEAD_REF) \
+		tscholak/$(EVAL_IMAGE_NAME):$(GIT_HEAD_REF) \
 		/bin/bash -c "python seq2seq/run_seq2seq.py configs/train.json"
 
 .PHONY: train_cosql
@@ -133,7 +133,7 @@ train_cosql: pull-train-image
 		/bin/bash -c "python seq2seq/run_seq2seq.py configs/train_cosql.json"
 
 .PHONY: eval
-eval: pull-eval-image
+eval: 
 	mkdir -p -m 777 eval
 	mkdir -p -m 777 transformers_cache
 	mkdir -p -m 777 wandb
