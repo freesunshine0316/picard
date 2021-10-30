@@ -130,6 +130,8 @@ train_cosql: pull-train-image
 		--mount type=bind,source=$(PWD)/transformers_cache,target=/transformers_cache \
 		--mount type=bind,source=$(PWD)/configs,target=/app/configs \
 		--mount type=bind,source=$(PWD)/wandb,target=/app/wandb \
+		--mount type=bind,source=$(PWD)/seq2seq,target=/app/seq2seq \
+		--mount type=bind,source=$(PWD)/third_party,target=/app/third_party \
 		tscholak/$(TRAIN_IMAGE_NAME):$(GIT_HEAD_REF) \
 		/bin/bash -c "python seq2seq/run_seq2seq.py configs/train_cosql.json"
 
