@@ -1,6 +1,6 @@
 {
     "run_name": "t5-cosql",
-    "model_name_or_path": "t5-3b",
+    "model_name_or_path": "/transformers_cache/t5.1.1_lm100k_lg",
     "dataset": "cosql+spider",
     "source_prefix": "",
     "schema_serialization_type": "peteshaw",
@@ -40,5 +40,7 @@
     "predict_with_generate": true,
     "num_beams": 1,
     "num_beam_groups": 1,
-    "use_picard": false
+    "use_picard": false,
+    "test_suite_db_dir": "/transformers_cache/downloads/extracted/9ec14a98361d26d8422934a5235adb2cdafe085e5c5a8a5469c86cc9a82cae2c/cosql_dataset/database",
+    "overwrite_output_dir": true
 }

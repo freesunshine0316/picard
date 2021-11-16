@@ -109,13 +109,15 @@ train:
 	docker run \
 		-it \
 		--rm \
-		--user 13011:13011 \
+		--gpus all \
 		--mount type=bind,source=$(PWD)/train,target=/train \
 		--mount type=bind,source=$(PWD)/transformers_cache,target=/transformers_cache \
 		--mount type=bind,source=$(PWD)/configs,target=/app/configs \
 		--mount type=bind,source=$(PWD)/wandb,target=/app/wandb \
+		--mount type=bind,source=$(PWD)/seq2seq,target=/app/seq2seq \
+		--mount type=bind,source=$(PWD)/third_party,target=/app/third_party \
 		tscholak/$(EVAL_IMAGE_NAME):$(GIT_HEAD_REF) \
-		/bin/bash -c "python seq2seq/run_seq2seq.py configs/train.json"
+		/bin/bash -c "CUDA_VISIBLE_DEVICES=6,7 python seq2seq/run_seq2seq.py configs/train.json"
 
 .PHONY: train_cosql
 train_cosql: pull-train-image
@@ -125,13 +127,15 @@ train_cosql: pull-train-image
 	docker run \
 		-it \
 		--rm \
-		--user 13011:13011 \
+		--gpus all \
 		--mount type=bind,source=$(PWD)/train,target=/train \
 		--mount type=bind,source=$(PWD)/transformers_cache,target=/transformers_cache \
 		--mount type=bind,source=$(PWD)/configs,target=/app/configs \
 		--mount type=bind,source=$(PWD)/wandb,target=/app/wandb \
+		--mount type=bind,source=$(PWD)/seq2seq,target=/app/seq2seq \
+		--mount type=bind,source=$(PWD)/third_party,target=/app/third_party \
 		tscholak/$(TRAIN_IMAGE_NAME):$(GIT_HEAD_REF) \
-		/bin/bash -c "python seq2seq/run_seq2seq.py configs/train_cosql.json"
+		/bin/bash -c "HF_DATASETS_OFFLINE=1  CUDA_VISIBLE_DEVICES=6,7 python seq2seq/run_seq2seq.py configs/train_cosql.json"
 
 .PHONY: eval
 eval: 
@@ -141,13 +145,15 @@ eval:
 	docker run \
 		-it \
 		--rm \
-		--user 13011:13011 \
+		--gpus all \
 		--mount type=bind,source=$(PWD)/eval,target=/eval \
 		--mount type=bind,source=$(PWD)/transformers_cache,target=/transformers_cache \
 		--mount type=bind,source=$(PWD)/configs,target=/app/configs \
 		--mount type=bind,source=$(PWD)/wandb,target=/app/wandb \
+		--mount type=bind,source=$(PWD)/seq2seq,target=/app/seq2seq \
+		--mount type=bind,source=$(PWD)/third_party,target=/app/third_party \
 		tscholak/$(EVAL_IMAGE_NAME):$(GIT_HEAD_REF) \
-		/bin/bash -c "python seq2seq/run_seq2seq.py configs/eval.json"
+		/bin/bash -c "CUDA_VISIBLE_DEVICES=6,7 python seq2seq/run_seq2seq.py configs/eval.json"
 
 .PHONY: eval_cosql
 eval_cosql: pull-eval-image

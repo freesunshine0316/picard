@@ -1,6 +1,6 @@
 {
     "run_name": "t5+picard-spider-eval",
-    "model_name_or_path": "tscholak/cxmefzzi",
+    "model_name_or_path": "tscholak/3vnuv1vf",
     "dataset": "spider",
     "source_prefix": "",
     "schema_serialization_type": "peteshaw",
